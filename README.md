@@ -1,1 +1,69 @@
-# chat-history-navigator
+🧠 Chat Memory Explorer (LangChain)
+This project demonstrates how to use LangChain's built-in memory classes with a simple ConversationChain setup. It allows the chatbot to retain and manage conversation history through different memory strategies.
+
+📌 Features
+Use of different memory types:
+
+ConversationBufferMemory
+
+ConversationBufferWindowMemory
+
+ConversationTokenBufferMemory
+
+ConversationSummaryMemory
+
+Tracks past conversations using memory
+
+Displays stored memory buffer and loaded variables
+
+🧪 Code Structure
+python
+Copy
+Edit
+from langchain.memory import (
+    ConversationBufferMemory,
+    ConversationBufferWindowMemory,
+    ConversationTokenBufferMemory,
+    ConversationSummaryMemory,
+)
+Memory Options
+Uncomment one of the following memory lines to use it in your conversation chain.
+
+python
+Copy
+Edit
+# Stores **entire** conversation history
+# memory = ConversationBufferMemory()
+
+# Stores only the **last `k` interactions**
+# memory = ConversationBufferWindowMemory(k=2)
+
+# Stores only up to `max_token_limit` tokens using LLM to count tokens
+# memory = ConversationTokenBufferMemory(llm=chat, max_token_limit=1000)
+
+# Summarizes memory into shorter chunks using LLM
+memory = ConversationSummaryMemory(llm=chat, max_token_limit=1000)
+💬 Chat Setup
+python
+Copy
+Edit
+from langchain.chains import ConversationChain
+
+conversation = ConversationChain(
+    llm=chat,
+    memory=memory,
+    verbose=True,
+)
+📤 Output Memory
+Print the memory contents and variables:
+
+python
+Copy
+Edit
+print(memory.buffer)  # Shows the raw conversation memory
+print(memory.load_memory_variables({}))  # Loads it as a dict
+✅ Requirements
+langchain >= 0.1.17
+
+OpenAI-compatible chat model like ChatOpenAI or AzureChatOpenAI
+
